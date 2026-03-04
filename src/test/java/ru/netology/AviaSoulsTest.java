@@ -20,6 +20,7 @@ public class AviaSoulsTest {
     }
 
     // Тестируем поиск и сортировку по цене
+    // Несколько билетов
     @Test
     public void testSearchAndSortByPrice() {
 
@@ -57,10 +58,55 @@ public class AviaSoulsTest {
         manager.add(t2);
         manager.add(t3);
 
+
         Ticket[] expected = {t2, t1, t3};
 
         Ticket[] actual = manager.search("Moscow", "Sochi", comparator);
 
         assertArrayEquals(expected, actual);
     }
+
+
+    // Тестируем ситуацию, когда найден ровно один подходящий билет
+    @Test
+    public void testSearchOneTicket() {
+
+        AviaSouls manager = new AviaSouls();
+
+
+        Ticket t1 = new Ticket("Moscow", "Sochi", 3000, 10, 20);
+        Ticket t2 = new Ticket("Moscow", "Kazan", 1500, 10, 20);
+
+
+        manager.add(t1);
+        manager.add(t2);
+
+        // ожидаем, что найдётся только один билет (t1)
+        Ticket[] expected = {t1};
+
+
+        Ticket[] actual = manager.search("Moscow", "Sochi");
+
+
+        assertArrayEquals(expected, actual);
+    }
+
+    // Тестируем ситуацию, когда ни один билет не подходит (0 билетов)
+    @Test
+    public void testSearchNoTickets() {
+        AviaSouls manager = new AviaSouls();
+
+        // добавляем билет
+        Ticket t1 = new Ticket("Moscow", "Sochi", 3000, 10, 20);
+        manager.add(t1);
+
+        // ищем маршрут, которого нет
+        Ticket[] expected = {};
+
+        Ticket[] actual = manager.search("Moscow", "Kazan");
+
+        // ожидаем пустой массив
+        assertArrayEquals(expected, actual);
+    }
+
 }
