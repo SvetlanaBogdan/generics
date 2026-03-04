@@ -68,8 +68,7 @@ public class AviaSouls {
             }
         }
 
-        // сортировка с использованием переданного компаратора
-        java.util.Arrays.sort(result, comparator);
+        Arrays.sort(result, comparator);
 
         return result;
     }
